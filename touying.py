@@ -4,6 +4,7 @@ from pptx.util import Cm
 from pathlib import Path
 from PIL import Image
 from io import BytesIO
+import json
 
 
 def to_pptx(input, output=None, start_page=1, count=None, ppi=500, silent=False):
@@ -12,6 +13,13 @@ def to_pptx(input, output=None, start_page=1, count=None, ppi=500, silent=False)
         print(f"Compiling typst source file {input}...")
 
     images = typst.compile(input, format="png", ppi=ppi)
+
+    # query <pdfpc-file> from typst file
+    pdfpc = json.loads(typst.query(input, "<pdfpc-file>", field="value"))
+    if len(pdfpc) > 0:
+        pdfpc = pdfpc[0]
+    else:
+        pdfpc = None
 
     if not silent:
         print("Creating presentation...")
@@ -41,6 +49,12 @@ def to_pptx(input, output=None, start_page=1, count=None, ppi=500, silent=False)
         slide = prs.slides.add_slide(blank_slide_layout)
         left = top = Cm(0)
         slide.shapes.add_picture(image_file, left, top, height=prs.slide_height)
+
+        # add speaker notes
+        if pdfpc and "note" in pdfpc["pages"][page_no - 1]:
+            notes_slide = slide.notes_slide
+            text_frame = notes_slide.notes_text_frame
+            text_frame.text = pdfpc["pages"][page_no - 1]["note"]
 
     if output is None:
         output = Path(input).with_suffix(".pptx")
