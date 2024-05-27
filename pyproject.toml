@@ -16,7 +16,8 @@ dependencies = [
     "typst>=0.11.1",
     "python-pptx>=0.6",
     "pillow",
-    "jinja2"
+    "jinja2",
+    "scour",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
