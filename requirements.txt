@@ -3,3 +3,4 @@ python-pptx>=0.6
 pillow
 jinja2
 scour
+argparse

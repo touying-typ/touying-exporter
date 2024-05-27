@@ -1,7 +1,3 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "touying"
 version = "0.11.1"
@@ -18,6 +14,7 @@ dependencies = [
     "pillow",
     "jinja2",
     "scour",
+    "argparse",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -28,6 +25,12 @@ classifiers = [
 [project.urls]
 Home = "https://github.com/touying-typ/touying-exporter"
 
+[project.scripts]
+touying = "touying.cli:main"
+
 [tool.setuptools]
 packages = {find = {exclude = ["tests"]}}
 py-modules = ["touying"]
+
+[tool.setuptools.package-data]
+touying = ["*.j2"]

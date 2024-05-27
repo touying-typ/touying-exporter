@@ -1,3 +1,6 @@
+**/__pycache__
+*.egg-info
+build
 .vscode
 dist
 *.html

@@ -379,16 +379,14 @@
     slide, but here we just set a common duration for all slides.
 -->
 
-<div id="impress" data-perspective="0">
+<div id="impress" data-transition-duration="0" data-perspective="0">
     {% for page_no in page_iter %}
     <div class="step slide">
       {# insert svg image #}
       {{ images[page_no] | safe }}
       {# add note #}
       {% if page_no in idx2note %}
-      <div class="notes">
-        {{ idx2note[page_no] }}
-      </div>
+      <div class="notes"><div style="white-space: pre-wrap;">{{ idx2note[page_no] }}</div></div>
       {% endif %}
     </div>
     {% endfor %}
