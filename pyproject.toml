@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "touying"
+version = "0.11.1"
+description = "Export presentation slides in various formats for Touying"
+readme = "README.md"
+keywords = ["presentation", "slides", "export"]
+license = {text = "MIT"}
+authors = [
+    {name = "OrangeX4", email = "318483724@qq.com"}
+]
+dependencies = [
+    "typst>=0.11.1",
+    "python-pptx>=0.6",
+    "pillow",
+    "jinja2"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+Home = "https://github.com/touying-typ/touying-exporter"
+
+[tool.setuptools]
+packages = {find = {exclude = ["tests"]}}
+py-modules = ["touying"]
