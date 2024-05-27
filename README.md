@@ -65,3 +65,8 @@ import touying
 touying.to_html("example.typ")
 ```
 
+## Thanks
+
+- [impress.js](https://github.com/impress/impress.js)
+- [typst-py](https://github.com/messense/typst-py)
+- [python-pptx](https://github.com/scanny/python-pptx)
