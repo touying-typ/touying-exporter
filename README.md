@@ -11,6 +11,7 @@ We generate SVG image files and package them with impress.js into an HTML file. 
 
 ![image](https://github.com/touying-typ/touying-exporter/assets/34951714/eac4976b-7d5d-40b6-8827-88c9a024b89a)
 
+[Touying template](https://github.com/touying-typ/touying-template) for online presentation. [Online](https://touying-typ.github.io/touying-template/)
 
 ## PPTX Export
 
