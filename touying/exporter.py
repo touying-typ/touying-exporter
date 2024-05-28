@@ -72,6 +72,11 @@ def to_html(
     if output is None:
         output = Path(input).with_suffix(".html")
 
+    # create output directory if it doesn't exist
+    output_dir = Path(output).parent
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+
     with open(output, "w", encoding="utf8") as f:
         f.write(result)
 
@@ -149,6 +154,11 @@ def to_pptx(
     # save presentation
     prs.save(output)
 
+    # create output directory if it doesn't exist
+    output_dir = Path(output).parent
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+
     if not silent:
         print(f"Presentation saved to {output}")
 
@@ -158,6 +168,10 @@ def to_pdf(input, output=None, root=None, font_paths=[], silent=False):
         print(f"Compiling typst source file {input}...")
     if output is None:
         output = Path(input).with_suffix(".pdf")
+    # create output directory if it doesn't exist
+    output_dir = Path(output).parent
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
     typst.compile(input, output=output, root=root, font_paths=font_paths, format="pdf")
 
 
@@ -168,6 +182,11 @@ def to_pdfpc(input, output=None, root=None, font_paths=[], silent=False):
     # save to .pdfpc file
     if output is None:
         output = Path(input).with_suffix(".pdfpc")
+
+    # create output directory if it doesn't exist
+    output_dir = Path(output).parent
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
 
     with open(output, "w", encoding="utf8") as f:
         f.write(
