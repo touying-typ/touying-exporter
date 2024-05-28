@@ -72,7 +72,7 @@ def to_html(
     if output is None:
         output = Path(input).with_suffix(".html")
 
-    with open(output, "w") as f:
+    with open(output, "w", encoding="utf8") as f:
         f.write(result)
 
 
@@ -169,7 +169,7 @@ def to_pdfpc(input, output=None, root=None, font_paths=[], silent=False):
     if output is None:
         output = Path(input).with_suffix(".pdfpc")
 
-    with open(output, "w") as f:
+    with open(output, "w", encoding="utf8") as f:
         f.write(
             typst.query(
                 input,
