@@ -8,7 +8,6 @@ import json
 import jinja2
 import os
 import re
-from scour import scour
 
 FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -34,10 +33,6 @@ def to_html(
         )
         for image in images
     ]
-    # minify svgs
-    scour_options = scour.sanitizeOptions(options=None)
-    scour_options.remove_metadata = True
-    images = [scour.scourString(image, scour_options) for image in images]
 
     # query <pdfpc-file> from typst file
     pdfpc = json.loads(

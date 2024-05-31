@@ -1,6 +1,6 @@
 [project]
 name = "touying"
-version = "0.11.2"
+version = "0.11.3"
 description = "Export presentation slides in various formats for Touying"
 readme = "README.md"
 keywords = ["presentation", "slides", "export"]
@@ -13,7 +13,6 @@ dependencies = [
     "python-pptx>=0.6",
     "pillow",
     "jinja2",
-    "scour",
     "argparse",
 ]
 classifiers = [
