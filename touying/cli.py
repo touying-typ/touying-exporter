@@ -2,6 +2,7 @@
 """
 
 import argparse
+import json
 from . import exporter
 
 
@@ -38,8 +39,18 @@ def main():
         default="html",
         help="Output format",
     )
+    parser_compile.add_argument(
+        "--sys-inputs",
+        default=None,
+        help="JSON string to pass to typst's sys.inputs",
+    )
 
     args = parser.parse_args()
+    
+    # Parse the sys_inputs JSON string if provided
+    sys_inputs_dict = {}
+    if args.sys_inputs:
+        sys_inputs_dict = json.loads(args.sys_inputs)
 
     if args.command == "compile":
         if args.format == "html":
@@ -51,6 +62,7 @@ def main():
                 start_page=args.start_page,
                 count=args.count,
                 silent=args.silent,
+                sys_inputs=sys_inputs_dict,
             )
         elif args.format == "pptx":
             exporter.to_pptx(
@@ -62,6 +74,7 @@ def main():
                 count=args.count,
                 ppi=args.ppi,
                 silent=args.silent,
+                sys_inputs=sys_inputs_dict,
             )
         elif args.format == "pdf":
             exporter.to_pdf(
@@ -70,6 +83,7 @@ def main():
                 root=args.root,
                 font_paths=args.font_paths,
                 silent=args.silent,
+                sys_inputs=sys_inputs_dict,
             )
         elif args.format == "pdfpc":
             exporter.to_pdfpc(
@@ -78,6 +92,7 @@ def main():
                 root=args.root,
                 font_paths=args.font_paths,
                 silent=args.silent,
+                sys_inputs=sys_inputs_dict,
             )
         else:
             raise ValueError(f"Unsupported format: {args.format}")

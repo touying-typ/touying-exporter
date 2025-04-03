@@ -29,7 +29,7 @@ pip install touying
 ## CLI
 
 ```text
-usage: touying compile [-h] [--output OUTPUT] [--root ROOT] [--font-paths [FONT_PATHS ...]] [--start-page START_PAGE] [--count COUNT] [--ppi PPI] [--silent SILENT] [--format {html,pptx,pdf,pdfpc}] input
+usage: touying compile [-h] [--output OUTPUT] [--root ROOT] [--font-paths [FONT_PATHS ...]] [--start-page START_PAGE] [--count COUNT] [--ppi PPI] [--silent SILENT] [--format {html,pptx,pdf,pdfpc}] [--sys-inputs SYS_INPUTS] input
 
 positional arguments:
   input                 Input file
@@ -47,6 +47,8 @@ options:
   --silent SILENT       Run silently
   --format {html,pptx,pdf,pdfpc}
                         Output format
+  --sys-inputs SYS_INPUTS
+                        JSON string to pass to typst's sys.inputs
 ```
 
 For example:
@@ -56,6 +58,24 @@ touying compile example.typ
 ```
 
 You will get a `example.html` file. Open it with your browser and start your presentation :-)
+
+### Passing variables to typst
+
+You can pass variables to your typst files using the `--sys-inputs` parameter:
+
+```sh
+touying compile example.typ --sys-inputs '{"title":"My Presentation","author":"John Doe"}'
+```
+
+In your typst file, you can access these variables like this:
+
+```typst
+#let title = sys.inputs.at("title", default: "Default Title")
+#let author = sys.inputs.at("author", default: "Default Author")
+
+= #title
+By #author
+```
 
 
 ## Use it as a python package
