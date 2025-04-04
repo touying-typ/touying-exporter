@@ -38,7 +38,8 @@ def to_html(
     # query <pdfpc-file> from typst file
     pdfpc = json.loads(
         typst.query(
-            input, "<pdfpc-file>", root=root, font_paths=font_paths, field="value"
+            input, "<pdfpc-file>", root=root, font_paths=font_paths, field="value",
+            sys_inputs=sys_inputs
         )
     )
     if len(pdfpc) > 0:
@@ -102,7 +103,8 @@ def to_pptx(
     # query <pdfpc-file> from typst file
     pdfpc = json.loads(
         typst.query(
-            input, "<pdfpc-file>", root=root, font_paths=font_paths, field="value"
+            input, "<pdfpc-file>", root=root, font_paths=font_paths, field="value",
+            sys_inputs=sys_inputs
         )
     )
     if len(pdfpc) > 0:
