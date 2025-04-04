@@ -13,7 +13,7 @@ FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 def to_html(
-    input, root=None, font_paths=[], output=None, start_page=1, count=None, silent=False, sys_inputs=None
+    input, root=None, font_paths=[], output=None, start_page=1, count=None, silent=False, sys_inputs={}
 ):
     if not silent:
         print(f"Compiling typst source file {input}...")
@@ -86,7 +86,7 @@ def to_pptx(
     count=None,
     ppi=500,
     silent=False,
-    sys_inputs=None,
+    sys_inputs={},
 ):
 
     if not silent:
@@ -161,7 +161,7 @@ def to_pptx(
         print(f"Presentation saved to {output}")
 
 
-def to_pdf(input, output=None, root=None, font_paths=[], silent=False, sys_inputs=None):
+def to_pdf(input, output=None, root=None, font_paths=[], silent=False, sys_inputs={}):
     if not silent:
         print(f"Compiling typst source file {input}...")
     if output is None:
@@ -174,7 +174,7 @@ def to_pdf(input, output=None, root=None, font_paths=[], silent=False, sys_input
                   sys_inputs=sys_inputs)
 
 
-def to_pdfpc(input, output=None, root=None, font_paths=[], silent=False, sys_inputs=None):
+def to_pdfpc(input, output=None, root=None, font_paths=[], silent=False, sys_inputs={}):
     if not silent:
         print(f"Compiling typst source file {input}...")
 
