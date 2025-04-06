@@ -51,6 +51,10 @@ def main():
     sys_inputs_dict = {}
     if args.sys_inputs:
         sys_inputs_dict = json.loads(args.sys_inputs)
+        # Validate that all values are strings
+        for key, value in sys_inputs_dict.items():
+            if not isinstance(value, str):
+                raise ValueError(f"Error in sys-inputs: Value for '{key}' must be a string, got {type(value).__name__}")
 
     if args.command == "compile":
         if args.format == "html":
