@@ -13,12 +13,13 @@ FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 def to_html(
-    input, root=None, font_paths=[], output=None, start_page=1, count=None, silent=False
+    input, root=None, font_paths=[], output=None, start_page=1, count=None, silent=False, sys_inputs={}
 ):
     if not silent:
         print(f"Compiling typst source file {input}...")
-
-    images = typst.compile(input, root=root, font_paths=font_paths, format="svg")
+    
+    images = typst.compile(input, root=root, font_paths=font_paths,
+                           format="svg", sys_inputs=sys_inputs)
     if type(images) is not list:
         images = [images]
 
@@ -37,7 +38,8 @@ def to_html(
     # query <pdfpc-file> from typst file
     pdfpc = json.loads(
         typst.query(
-            input, "<pdfpc-file>", root=root, font_paths=font_paths, field="value"
+            input, "<pdfpc-file>", root=root, font_paths=font_paths, field="value",
+            sys_inputs=sys_inputs
         )
     )
     if len(pdfpc) > 0:
@@ -85,13 +87,15 @@ def to_pptx(
     count=None,
     ppi=500,
     silent=False,
+    sys_inputs={},
 ):
 
     if not silent:
         print(f"Compiling typst source file {input}...")
 
     images = typst.compile(
-        input, root=root, font_paths=font_paths, format="png", ppi=ppi
+        input, root=root, font_paths=font_paths, format="png", ppi=ppi,
+        sys_inputs=sys_inputs
     )
     if type(images) is not list:
         images = [images]
@@ -99,7 +103,8 @@ def to_pptx(
     # query <pdfpc-file> from typst file
     pdfpc = json.loads(
         typst.query(
-            input, "<pdfpc-file>", root=root, font_paths=font_paths, field="value"
+            input, "<pdfpc-file>", root=root, font_paths=font_paths, field="value",
+            sys_inputs=sys_inputs
         )
     )
     if len(pdfpc) > 0:
@@ -158,7 +163,7 @@ def to_pptx(
         print(f"Presentation saved to {output}")
 
 
-def to_pdf(input, output=None, root=None, font_paths=[], silent=False):
+def to_pdf(input, output=None, root=None, font_paths=[], silent=False, sys_inputs={}):
     if not silent:
         print(f"Compiling typst source file {input}...")
     if output is None:
@@ -167,10 +172,11 @@ def to_pdf(input, output=None, root=None, font_paths=[], silent=False):
     output_dir = Path(output).parent
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
-    typst.compile(input, output=output, root=root, font_paths=font_paths, format="pdf")
+    typst.compile(input, output=output, root=root, font_paths=font_paths, format="pdf",
+                  sys_inputs=sys_inputs)
 
 
-def to_pdfpc(input, output=None, root=None, font_paths=[], silent=False):
+def to_pdfpc(input, output=None, root=None, font_paths=[], silent=False, sys_inputs={}):
     if not silent:
         print(f"Compiling typst source file {input}...")
 
@@ -192,6 +198,7 @@ def to_pdfpc(input, output=None, root=None, font_paths=[], silent=False):
                 font_paths=font_paths,
                 field="value",
                 one=True,
+                sys_inputs=sys_inputs,
             )
         )
 
