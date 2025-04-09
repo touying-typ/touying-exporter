@@ -1,6 +1,6 @@
 [project]
 name = "touying"
-version = "0.12.1"
+version = "0.13.2"
 description = "Export presentation slides in various formats for Touying"
 readme = "README.md"
 keywords = ["presentation", "slides", "export"]
@@ -9,7 +9,7 @@ authors = [
     {name = "OrangeX4", email = "318483724@qq.com"}
 ]
 dependencies = [
-    "typst>=0.12.1",
+    "typst>=0.13.2",
     "python-pptx>=0.6",
     "pillow",
     "jinja2",
