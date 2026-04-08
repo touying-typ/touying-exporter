@@ -31,6 +31,9 @@ def main():
         "--ppi", type=int, default=500, help="Pixels per inch for PPTX format"
     )
     parser_compile.add_argument(
+        "--svg", type=bool, default=False, help="Use svg in PPTX format"
+    )
+    parser_compile.add_argument(
         "--silent", type=bool, default=False, help="Run silently"
     )
     parser_compile.add_argument(
@@ -77,6 +80,7 @@ def main():
                 start_page=args.start_page,
                 count=args.count,
                 ppi=args.ppi,
+                svg=args.svg,
                 silent=args.silent,
                 sys_inputs=sys_inputs_dict,
             )

@@ -17,6 +17,8 @@ We generate SVG image files and package them with impress.js into an HTML file. 
 
 We generate PNG image files and package them into a PPTX file. This way, you can open and present it using PowerPoint, and it supports speaker notes.
 
+SVGs can also be used (PNGs will be generated even when using SVGs because PPTX needs a raster fallback for older versions, you can use the `ppi` option to lower the PNGs' resolution).
+
 ![image](https://github.com/touying-typ/touying-exporter/assets/34951714/3d547c74-fb4b-4c31-81e5-5138a5d727c9)
 
 ## Install
@@ -29,7 +31,7 @@ pip install touying
 ## CLI
 
 ```text
-usage: touying compile [-h] [--output OUTPUT] [--root ROOT] [--font-paths [FONT_PATHS ...]] [--start-page START_PAGE] [--count COUNT] [--ppi PPI] [--silent SILENT] [--format {html,pptx,pdf,pdfpc}] [--sys-inputs SYS_INPUTS] input
+usage: touying compile [-h] [--output OUTPUT] [--root ROOT] [--font-paths [FONT_PATHS ...]] [--start-page START_PAGE] [--count COUNT] [--ppi PPI] [--svg SVG] [--silent SILENT] [--format {html,pptx,pdf,pdfpc}] [--sys-inputs SYS_INPUTS] input
 
 positional arguments:
   input                 Input file
@@ -44,6 +46,7 @@ options:
                         Page to start from
   --count COUNT         Number of pages to convert
   --ppi PPI             Pixels per inch for PPTX format
+  --svg SVG             Use svg in PPTX format
   --silent SILENT       Run silently
   --format {html,pptx,pdf,pdfpc}
                         Output format

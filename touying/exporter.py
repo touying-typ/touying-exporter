@@ -1,6 +1,10 @@
 import typst
 from pptx import Presentation
 from pptx.util import Cm
+from pptx.parts.image import ImagePart
+from pptx.opc.constants import RELATIONSHIP_TYPE as RT
+from pptx.oxml.ns import nsdecls
+from pptx.oxml import parse_xml
 from pathlib import Path
 from PIL import Image
 from io import BytesIO
@@ -86,6 +90,7 @@ def to_pptx(
     start_page=1,
     count=None,
     ppi=500,
+    svg=False,
     silent=False,
     sys_inputs={},
 ):
@@ -97,8 +102,15 @@ def to_pptx(
         input, root=root, font_paths=font_paths, format="png", ppi=ppi,
         sys_inputs=sys_inputs
     )
+    if svg:
+        svgs = typst.compile(
+            input, root=root, font_paths=font_paths, format="svg",
+            sys_inputs=sys_inputs
+        )
     if type(images) is not list:
         images = [images]
+        if svg:
+            svgs = [svg]
 
     # query <pdfpc-file> from typst file
     pdfpc = json.loads(
@@ -140,7 +152,28 @@ def to_pptx(
         # add a slide
         slide = prs.slides.add_slide(blank_slide_layout)
         left = top = Cm(0)
-        slide.shapes.add_picture(image_file, left, top, height=prs.slide_height)
+        pic = slide.shapes.add_picture(image_file, left, top, height=prs.slide_height)
+
+
+        # insert svg, png becomes fallback (mandatory)
+        if svg:
+            package = slide.part.package
+            partname = package.next_partname("/ppt/media/image%d.svg")
+            svg_part = ImagePart(partname, "image/svg+xml", package, svgs[page_no])
+
+            rId = slide.part.relate_to(svg_part, RT.IMAGE)
+
+            blip = pic._element.blipFill.blip
+            ext_xml = f"""
+            <a:extLst {nsdecls('a')}>
+                <a:ext uri="{{28A0092B-C50C-407E-A947-70E740481C1C}}">
+                    <asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main"
+                                  xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+                                  r:embed="{rId}"/>
+                </a:ext>
+            </a:extLst>
+            """
+            blip.append(parse_xml(ext_xml))
 
         # add speaker notes
         if page_no in idx2note:
