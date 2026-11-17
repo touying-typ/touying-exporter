@@ -423,6 +423,48 @@
 //# sourceMappingURL=/sm/5a8777bf552b4b80d93fa30d943d3bd7c54f7209870583d74e00f26ece7e2a0d.map
 </script>
 {% endraw %}
+{% raw %}
+<!--
+    Restart each GIF when its slide is entered. Browsers keep one animation clock per image URL,
+    and every page embeds the GIF with the same data URL, so a GIF would otherwise continue from
+    wherever its clock is. A fresh blob URL restarts it. All the steps of a slide share that URL,
+    so revealing a #pause step does not restart the animation.
+-->
+<script>
+(() => {
+  const XLINK = "http://www.w3.org/1999/xlink";
+  let gifs = null;
+  const collect = () => {
+    const found = new Map();
+    for (const image of document.querySelectorAll("image")) {
+      const href = image.getAttributeNS(XLINK, "href") || "";
+      if (!href.startsWith("data:image/gif")) continue;
+      if (!found.has(href)) {
+        const bytes = Uint8Array.from(atob(href.slice(href.indexOf(",") + 1)), (c) => c.charCodeAt(0));
+        found.set(href, { blob: new Blob([bytes], { type: "image/gif" }), url: null, images: [] });
+      }
+      found.get(href).images.push(image);
+    }
+    return [...found.values()];
+  };
+  let shown = new Set();
+  document.addEventListener("impress:stepenter", (event) => {
+    gifs ??= collect();
+    const now = new Set();
+    for (const gif of gifs) {
+      if (!gif.images.some((image) => event.target.contains(image))) continue;
+      if (!shown.has(gif)) {
+        if (gif.url) URL.revokeObjectURL(gif.url);
+        gif.url = URL.createObjectURL(gif.blob);
+        for (const image of gif.images) image.setAttributeNS(XLINK, "xlink:href", gif.url);
+      }
+      now.add(gif);
+    }
+    shown = now;
+  });
+})();
+</script>
+{% endraw %}
 <script>impress().init();</script>
 
 </body>
