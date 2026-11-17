@@ -423,6 +423,13 @@
 //# sourceMappingURL=/sm/5a8777bf552b4b80d93fa30d943d3bd7c54f7209870583d74e00f26ece7e2a0d.map
 </script>
 {% endraw %}
+{# each embedded image is stored once and assigned to its <image> elements here, see exporter.py #}
+<script>
+const IMAGES = {{ image_data | tojson }};
+for (const image of document.querySelectorAll("image[data-image]")) {
+  image.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", IMAGES[image.getAttribute("data-image")]);
+}
+</script>
 <script>impress().init();</script>
 
 </body>
