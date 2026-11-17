@@ -59,10 +59,27 @@ def to_html(
         count = len(images)
     page_iter = range(start_page - 1, start_page + count - 1)
 
+    # store each embedded image once: every #pause step is a separate page that embeds it again
+    image_data = {}
+
+    def stash(match):
+        return f'data-image="{image_data.setdefault(match.group(1), len(image_data))}"'
+
+    for page_no in page_iter:
+        images[page_no] = re.sub(
+            r'(?:xlink:)?href="(data:image/[a-z+]+;base64,[^"]+)"', stash, images[page_no]
+        )
+
     result = (
         jinja2.Environment(loader=jinja2.FileSystemLoader(FILE_PATH))
         .get_template("template.html.j2")
-        .render(page_iter=page_iter, images=images, idx2note=idx2note, pdfpc=pdfpc)
+        .render(
+            page_iter=page_iter,
+            images=images,
+            image_data=list(image_data),
+            idx2note=idx2note,
+            pdfpc=pdfpc,
+        )
     )
 
     # save to .html file
