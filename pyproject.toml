@@ -26,6 +26,9 @@ Home = "https://github.com/touying-typ/touying-exporter"
 [project.scripts]
 touying = "touying.cli:main"
 
+[tool.uv]
+package = true
+
 [tool.setuptools]
 packages = {find = {exclude = ["tests"]}}
 py-modules = ["touying"]
